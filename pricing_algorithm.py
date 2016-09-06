@@ -13,7 +13,7 @@ class Command(BaseCommand):
             try:
                 spotify_data = self.get_spotify_data(artist)
                 price = self.compute_artist_price(spotify_data)
-                self.update_artist(artist, price, spotify_data[1], spotify_data[0])
+                self.update_artist(artist, price, spotify_data)
             except:
                 pass
         self.update_investments()
@@ -53,12 +53,12 @@ class Command(BaseCommand):
         rounded_price = round(price, 2)
         return rounded_price
 
-    def update_artist(self, artist, price, spotify_followers, spotify_popularity):
+    def update_artist(self, artist, price, spotify_data):
         cur_artist = artist
         cur_artist.price = price
         cur_artist.save()
-        new_data = ArtistData(media=artist, value=price, spotify_followers=spotify_followers,
-                        spotify_popularity=spotify_popularity)
+        new_data = ArtistData(media=artist, value=price, spotify_popularity=spotify_data[0],
+                              spotify_followers=spotify_data[1])
         new_data.save()
 
     def update_investments(self):
@@ -76,9 +76,9 @@ class Command(BaseCommand):
                 net_worth = 0
                 user.free_points = 0
                 user.save()
-            investment_list = Investment.objects.all().filter(user=user).exclude(shares=0)
+            users_investments = Investment.objects.all().filter(user=user).exclude(shares=0)
             invested_points = 0
-            for investment in investment_list:
+            for investment in users_investments:
                 if (investment.shares > 0):
                     net_worth += investment.shares * investment.media.price
                     invested_points += investment.shares * investment.media.price
@@ -87,5 +87,5 @@ class Command(BaseCommand):
                 user.invested_points = invested_points
                 user.save()
                 cur_user_data = GameUserData(user=user, points=net_worth, invested_points=user.invested_points,
-                                free_points=user.free_points)
+                                             free_points=user.free_points)
                 cur_user_data.save()
