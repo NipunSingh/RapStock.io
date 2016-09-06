@@ -4,7 +4,6 @@
 Made public a couple of the most important files from the private RapStock.io repo:
   * [views.py] (https://github.com/NipunSingh/RapStock.io/blob/master/views.py) - the controller in the Model-View-Controller architecture of the web app. Contains the business logic for users to discover new artists, to make investments in artists, to sell shares of artists, and to manage their portfolios.
   * [pricing_algorithm.py] (https://github.com/NipunSingh/RapStock.io/blob/master/pricing_algorithm.py) - the algorithm that would run hourly. It take the popularity metrics for each artist from Spotify and then comes up with a price for that artist's stock.
-  * [models.py] (https://github.com/NipunSingh/RapStock.io/blob/master/models.py) - the data model. The actual file isn't very interesting so here is an ER diagram to explain the database design.
 
 ### Game Background
 
