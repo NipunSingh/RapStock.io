@@ -105,9 +105,9 @@ def rewards(request):
     return TemplateResponse(request,'game/rewards.html', {'reward_list': rewards, 'game_user': cur_user})
 
 def initialize_new_user(request):
-    q = GameUser(user=request.user, points=10000, invested_points=0, free_points=10000)
-    q.save()
-    start_data = GameUserData(user=q, points=10000, invested_points=0, free_points=10000)
+    cur_user = GameUser(user=request.user, points=10000, invested_points=0, free_points=10000)
+    cur_user.save()
+    start_data = GameUserData(user=cur_user, points=10000, invested_points=0, free_points=10000)
     start_data.save()
 
 @login_required()
